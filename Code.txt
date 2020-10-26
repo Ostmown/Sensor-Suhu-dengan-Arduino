@@ -1,0 +1,39 @@
+/**
+ * Muhammad Ihsan Firzatullah Simbolon
+ * 1903332058
+ * TT3C
+ * Teknik Elektro
+ * Politeknik Negeri Jakarta
+  */
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8); // Membuat obyek dengan nama lcd dari library LCD(LiquidCrystal)
+int sensor_Pin = A0; // pin analog sensor LM35 
+int nilai_ADC_sensor = 0; // variabel untuk hasil pembacaan sensor
+
+void setup() {
+ Serial.begin(9600); // Inisilaisasi Virtual terminal dengan 9600 bit 
+ lcd.begin(20, 4); // Inisilaisasi LCD 20*4 
+ lcd.setCursor(0, 0); // Set LCD pada Kolom 0 dan Baris 0
+ lcd.print("Monitoring Suhu"); //Mencetak teks pada LCD
+ lcd.setCursor(0, 1); // Set LCD pada Kolom 0 dan Baris 0
+ lcd.print ("Telekomunikasi PNJ");
+ delay(1000);
+ lcd.clear();
+}
+
+void loop() {
+  nilai_ADC_sensor = analogRead(sensor_Pin);
+  double Celsius = ((5.0/1023.0)*analogRead(sensor_Pin))*100; // mengubah nilai ADC sensor ke tegangan kemudian ke Celsius
+  Serial.println(nilai_ADC_sensor); //mencetak hasil baca dari pin A0 (Sensor LM35)
+  delay(100);
+  lcd.setCursor(0, 2);
+  lcd.print("SUHU RUANGAN:");
+  lcd.setCursor(0, 3);
+  lcd.print(Celsius);
+  lcd.setCursor(6, 3);
+  lcd.print((char)223); //Cetak simbol derajat
+  lcd.setCursor(7, 3);
+  lcd.print("C");
+  
+}
